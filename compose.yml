@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "shorturl"
+      MYSQL_USER: "energyworx"
+      MYSQL_PASSWORD: "S3cret!"
+    volumes:
+      - ${PWD}/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysql", "shorturl", "-e", "select 1"]
+      start_period: 5s
+      interval: 1s
+      retries: 20
+  app:
+    build: .
+    environment:
+      DB_HOST: "db"
+      DB_PORT: "3306"
+      DB_NAME: "shorturl"
+      DB_USER: "energyworx"
+      DB_PASS: "S3cret!"
+    volumes:
+      - ${PWD}:/usr/src/app
+    ports:
+      - 8000:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["fastapi", "dev", "shorturl/main.py", "--host", "0.0.0.0"]
