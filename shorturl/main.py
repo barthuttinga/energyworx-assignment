@@ -5,7 +5,8 @@ from sqlmodel import Session
 
 from . import db
 from .exc import DuplicateShortcodeError
-from .models import ShortcodeResponse, ShortenRequest, StatsResponse, Url
+from .models import Url
+from .schemas import ShortcodeResponse, ShortenRequest, StatsResponse
 
 app = FastAPI()
 
