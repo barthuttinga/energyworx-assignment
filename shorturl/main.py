@@ -65,7 +65,7 @@ def get_shortcode_handler(
 def get_shortcode_stats_handler(
     shortcode: str, db_session: Session = Depends(db.get_session)
 ):
-    """Returns the URL-status for the provided shortcode."""
+    """Returns the URL-stats for the provided shortcode."""
 
     # get URL or respond with 404
     url = db.get_url(db_session, shortcode)
